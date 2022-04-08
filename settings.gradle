@@ -16,3 +16,7 @@ rootProject.name = "SimpleARouter"
 include ':app'
 include ':arouter-annotations'
 include ':compiler'
+include ':arouter-api'
+include ':module-first'
+include ':module-second'
+include ':common'

@@ -2,23 +2,28 @@ plugins {
     id 'com.android.application'
 }
 
+def app_android = this.getRootProject().ext.app_android
+def app_dependencies = this.getRootProject().ext.app_dependencies
+
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.1"
+    compileSdkVersion app_android.compileSdkVersion
+    buildToolsVersion app_android.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.lsj.simplearouter"
-        minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        applicationId app_android.applicationId
+        minSdkVersion app_android.minSdkVersion
+        targetSdkVersion app_android.targetSdkVersion
+        versionCode app_android.versionCode
+        versionName app_android.versionName
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner app_android.testInstrumentationRunner
+
+        buildConfigField("boolean","isRelease",String.valueOf(isRelease))
 
         // 传递参数
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [argument: '这是来自于gradle从app模块传递过来的参数']
+                arguments = [mouduleName : project.getName(),packageNameForAPT : packageNameForAPT]
             }
         }
     }
@@ -36,16 +41,25 @@ android {
 }
 
 dependencies {
+    app_dependencies.each{k,v ->
+        implementation v
+    }
 
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation project(path: ':arouter-annotations')
-    implementation project(path: ':arouter-annotations')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation project(":arouter-annotations");
-
+    //公共基础库
+    implementation project(":common")
+    //arouter：
+    //用于注解
+    implementation project(":arouter-annotations")
+    //注解处理器
     annotationProcessor project(":compiler")
+
+    //正式环境下，模块不能独立运行
+    if (isRelease){
+        implementation project(":module-first")
+        implementation project(":module-second")
+    }
 }

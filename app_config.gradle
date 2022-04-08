@@ -1,0 +1,35 @@
+ext{
+    // 测试环境  /  正式环境  （组件化环境  /  集成化环境）
+    isRelease = true;
+
+      // 定义一个包名，用于存放APT生成的所有类文件
+      packageNameForAPT = "com.lsj.arouter_annotations";
+
+        app_android = [
+                  compileSdkVersion        : 30,
+                  buildToolsVersion        : "30.0.1",
+                  applicationId            : "com.lsj.simplearouter",
+                  minSdkVersion            : 22,
+                  targetSdkVersion         : 30,
+                  versionCode              : 1,
+                  versionName              : "1.0",
+                  testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner"
+          ]
+
+        app_dependencies = [
+                    "appcompat": 'androidx.appcompat:appcompat:1.2.0',
+                    "constraint": 'androidx.constraintlayout:constraintlayout:2.0.4'
+            ]
+
+        // 测试环境的服务器地址，和，正式环境服务器地址
+        url = [
+            "debug"   : "https://11.22.33.44/debug",
+            "release" : "https://55.66.77.88/release"
+         ]
+
+
+         app_appid = [
+               "module_first": "com.lsj.module_one",
+               "module_second": "com.lsj.module_second"
+         ]
+}

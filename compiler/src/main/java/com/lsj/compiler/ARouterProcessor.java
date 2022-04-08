@@ -2,6 +2,7 @@ package com.lsj.compiler;
 
 import com.google.auto.service.AutoService;
 import com.lsj.arouter_annotations.ARouter;
+import com.lsj.arouter_annotations.bean.RouterBean;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -23,7 +24,9 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
 /**
@@ -42,6 +45,8 @@ public class ARouterProcessor extends AbstractProcessor {
     private Messager messager;
     // 文件生成器， 类 资源 等，就是最终要生成的文件 是需要Filer来完成的
     private Filer filer;
+    // type(类信息)的工具类，包含用于操作TypeMirror的工具方法
+    private Types typeTool;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -58,59 +63,31 @@ public class ARouterProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         messager.printMessage(Diagnostic.Kind.NOTE,"process");
-
-        if (annotations.isEmpty())
-            return false;
+        if (annotations.isEmpty()) return false;
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(ARouter.class);
+
+//        elementUtils.getTypeElement(ProcessorConfig)
+
         for (Element element:
              elements) {
 //            JavaFileUtils.writeJavaFileHelloWold(filer,messager);
-            String packageName = elementUtils.getPackageOf(element).getQualifiedName().toString();
+//            JavaFileUtils.writeFindTargetClass(element, elementUtils,messager,filer);
+
             String className = element.getSimpleName().toString();
-            messager.printMessage(Diagnostic.Kind.NOTE,"注释的类有 ：" + className);
-            String finalClassName = className + "$ARouter";
-
+            messager.printMessage(Diagnostic.Kind.NOTE,"使用了ARouter注解类的类有 ：" + className);
             ARouter aRouter = element.getAnnotation(ARouter.class);
-
-            /**
-             模板：
-             public class MainActivity3$$$$$$$$$ARouter {
-
-                 public static Class findTargetClass(String path) {
-                    return path.equals("/app/MainActivity3") ? MainActivity3.class : null;
-                 }
-
-             }
-             */
-            //方法
-            MethodSpec findTargetClass = MethodSpec.methodBuilder("findTargetClass")
-                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                    .addParameter(String.class,"path")
-                    .returns(Class.class)
-                    .addStatement("return path.equals($S) ? $T.class : null",
-                            aRouter.path(),
-                            ClassName.get((TypeElement) element))
+            new RouterBean.Builder()
+                    .addGroup(aRouter.group())
+                    .addPath(aRouter.path())
+                    .addElement(element)
                     .build();
 
-            //类
-            TypeSpec typeSpec = TypeSpec.classBuilder(finalClassName)
-                    .addMethod(findTargetClass)
-                    .addModifiers(Modifier.PUBLIC)
-                    .build();
+            TypeMirror elementMirror = element.asType();
+//            if (typeTool.isSubtype(elementMirror,a))
 
-            //包
-            JavaFile javaFile = JavaFile.builder(packageName, typeSpec)
-                    .build();
-
-            //生成java文件
-            try {
-                javaFile.writeTo(filer);
-            } catch (IOException e) {
-                e.printStackTrace();
-                messager.printMessage(Diagnostic.Kind.NOTE,"生成" + finalClassName + " 异常。异常信息 ： " + e.getMessage());
-            }
         }
 
         return false;
     }
+
 }
