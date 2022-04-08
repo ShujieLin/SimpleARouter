@@ -18,7 +18,7 @@ android {
         // 传递参数
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [student: 'hello ni hao student javapoet']
+                arguments = [argument: '这是来自于gradle从app模块传递过来的参数']
             }
         }
     }
