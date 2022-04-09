@@ -39,7 +39,6 @@ android {
 
     sourceSets{
         main{
-
             if (isRelease){
                 manifest.srcFile 'src/main/AndroidManifest.xml'
                 //debug包的文件不合并到主工程

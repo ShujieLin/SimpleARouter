@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
 }
-
+//缓存，提高编译速度
 def app_android = this.getRootProject().ext.app_android
 def app_dependencies = this.getRootProject().ext.app_dependencies
 
