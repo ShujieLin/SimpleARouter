@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.lsj.arouter_annotations.ARouter;
+
+@ARouter(path = "/module_one/ModuleFirstActivity")
 public class ModuleFirstActivity extends AppCompatActivity {
 
     @Override

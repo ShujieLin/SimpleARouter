@@ -6,6 +6,6 @@ import com.lsj.arouter_annotations.ARouter;
  * @date: 2022/4/8
  * @author: linshujie
  */
-@ARouter(path = "/app/MainActivity2",group = "app")
+@ARouter(path = "/app/MainActivity2")
 public class MainActivity2 {
 }

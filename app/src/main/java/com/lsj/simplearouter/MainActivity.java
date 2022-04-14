@@ -10,7 +10,7 @@ import com.lsj.arouter_annotations.ARouter;
 import com.lsj.module_one.ModuleFirstActivity;
 import com.lsj.module_second.ModuleSecondActivity;
 
-@ARouter(path = "/app/MainActivity",group = "app")
+@ARouter(path = "/app/MainActivity")
 public class MainActivity extends AppCompatActivity {
 
     @Override
