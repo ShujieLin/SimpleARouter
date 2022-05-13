@@ -23,7 +23,7 @@ android {
         // 传递参数
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [mouduleName : project.getName(),packageNameForAPT : packageNameForAPT]
+                arguments = [moduleName : project.getName(),packageNameForAPT : packageNameForAPT]
             }
         }
     }
@@ -49,17 +49,18 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    //公共基础库
-    implementation project(":common")
+    //注解处理器
+    annotationProcessor project(":compiler")
     //arouter：
     //用于注解
     implementation project(":arouter-annotations")
-    //注解处理器
-    annotationProcessor project(":compiler")
+
+    //公共基础库
+    implementation project(":common")
 
     //正式环境下，模块不能独立运行
     if (isRelease){
-        implementation project(":module-first")
-        implementation project(":module-second")
+        implementation project(":module_first")
+        implementation project(":module_second")
     }
 }

@@ -3,14 +3,14 @@ ext{
     isRelease = true;
 
     // 定义一个包名，用于存放APT生成的所有类文件
-    packageNameForAPT = "com.lsj.arouter_annotations";
+    packageNameForAPT = "com.lsj.simplearouter"
 
     app_android = [
-            compileSdkVersion        : 30,
-            buildToolsVersion        : "30.0.1",
+            compileSdkVersion        : 29,
+            buildToolsVersion        : "29.0.3",
             applicationId            : "com.lsj.simplearouter",
-            minSdkVersion            : 22,
-            targetSdkVersion         : 30,
+            minSdkVersion            : 15,
+            targetSdkVersion         : 29,
             versionCode              : 1,
             versionName              : "1.0",
             testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner"

@@ -16,9 +16,16 @@ android {
 
         buildConfigField("boolean", "isRelease", String.valueOf(isRelease))
 
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+//            }
+//        }
+
+        // 传递参数
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+                arguments = [moduleName : project.getName(),packageNameForAPT : packageNameForAPT]
             }
         }
 

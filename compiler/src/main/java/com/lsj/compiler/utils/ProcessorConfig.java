@@ -8,11 +8,11 @@ package com.lsj.compiler.utils;
 public interface ProcessorConfig {
 
     // @ARouter注解 的 包名 + 类名
-    String AROUTER_PACKAGE =  "com.lsj.arouter_annotations.ARouter";
+    String AROUTER_PACKAGE =  "com.lsj.arouter_annotations.ARouter";//com.lsj.arouter_annotations.ARouter
 
     // 接收参数的TAG标记
-    String OPTIONS = "moduleName"; // 同学们：目的是接收 每个module名称
-    String APT_PACKAGE = "packageNameForAPT"; // 同学们：目的是接收 包名（APT 存放的包名）
+    String OPTIONS = "moduleName"; //接收每个module名称 moduleName
+    String APT_PACKAGE = "packageNameForAPT"; //是接收包名（APT 存放的包名）packageNameForAPT
 
     // String全类名
     public static final String STRING_PACKAGE = "java.lang.String";
@@ -21,10 +21,10 @@ public interface ProcessorConfig {
     public static final String ACTIVITY_PACKAGE = "android.app.Activity";
 
     // ARouter api 包名
-    String AROUTER_API_PACKAGE = "com.xiangxue.arouter_api";
+    String AROUTER_API_PACKAGE = "com.lsj.arouter_api";
 
     // ARouter api 的 ARouterGroup 高层标准
-    String AROUTER_API_GROUP = AROUTER_API_PACKAGE + ".ARouterGroup";
+    String AROUTER_API_GROUP = AROUTER_API_PACKAGE + ".ARouterGroup";//com.lsj.arouter_api
 
     // ARouter api 的 ARouterPath 高层标准
     String AROUTER_API_PATH = AROUTER_API_PACKAGE + ".ARouterPath";
