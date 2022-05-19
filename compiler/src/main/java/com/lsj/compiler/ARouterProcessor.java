@@ -39,6 +39,8 @@ import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
 /**
+ * 注解处理器
+ *
  * @date: 2022/4/8
  * @author: linshujie
  */
@@ -48,12 +50,8 @@ import javax.tools.Diagnostic;
 @SupportedOptions({ProcessorConfig.OPTIONS,ProcessorConfig.APT_PACKAGE})// 接收 安卓工程传递过来的参数
 public class ARouterProcessor extends AbstractProcessor {
 
-//    // 操作Element的工具类（类，函数，属性，其实都是Element）
-    private Elements elementUtils;
-
     // 操作Element的工具类（类，函数，属性，其实都是Element）
-//    private Elements elementTool;
-
+    private Elements elementUtils;
     // Message用来打印 日志相关信息
     private Messager messager;
     // 文件生成器， 类 资源 等，就是最终要生成的文件 是需要Filer来完成的
@@ -67,9 +65,9 @@ public class ARouterProcessor extends AbstractProcessor {
     private String aptPackage;
 
     //Path缓存
-    private Map<String, List<RouterBean>> mAllPathMap = new HashMap<>();
+    private Map<String, List<RouterBean>> allPathMap = new HashMap<>();
     //Group缓存
-    private Map<String, String> mAllGroupMap = new HashMap<>();
+    private Map<String, String> allGroupMap = new HashMap<>();
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -110,25 +108,10 @@ public class ARouterProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-//
-//        // 定义（生成类文件实现的接口） 有 Path Group
-//        TypeElement pathType = elementUtils.getTypeElement(ProcessorConfig.AROUTER_API_PATH); // ARouterPath描述
-////        TypeElement pathType = elementTool.getTypeElement("com.lsj.arouter_api.ARouterPath");
-//        TypeElement groupType = elementUtils.getTypeElement(ProcessorConfig.AROUTER_API_GROUP); // ARouterGroup描述
-//        messager.printMessage(Diagnostic.Kind.NOTE,"测试pathType = " + pathType );
-//        messager.printMessage(Diagnostic.Kind.NOTE,"测试groupType = " + groupType );
-//
-//        //获取接口com.lsj.arouter_api.ARouterPath
-//        TypeElement pathType = elementUtils.getTypeElement(ProcessorConfig.AROUTER_API_PATH);
-//        //获取接口com.lsj.arouter_api.ARouterGroup
-//        TypeElement groupType = elementUtils.getTypeElement(ProcessorConfig.AROUTER_API_GROUP);
-//        messager.printMessage(Diagnostic.Kind.NOTE, "pathType = " + pathType);
-//        messager.printMessage(Diagnostic.Kind.NOTE, "groupType = " + groupType);
-
         if (annotations.isEmpty()) return false;
 
         //获取所有被ARouter注解的元素集合
-        putAnnotationsInfo2Cache(roundEnv,mAllPathMap);
+        putAnnotationsInfo2Cache(roundEnv,allPathMap);
 
         //获取接口com.lsj.arouter_api.ARouterPath
         TypeElement pathType = elementUtils.getTypeElement(ProcessorConfig.AROUTER_API_PATH);
@@ -169,7 +152,7 @@ public class ARouterProcessor extends AbstractProcessor {
      * @param pathType
      */
     private void createGoupFileGenerater(TypeElement groupType, TypeElement pathType) throws IOException {
-        if (ProcessorUtils.isEmpty(mAllGroupMap) || ProcessorUtils.isEmpty(mAllPathMap)) return;
+        if (ProcessorUtils.isEmpty(allGroupMap) || ProcessorUtils.isEmpty(allPathMap)) return;
 
         //  Map<String, Class<? extends ARouterPath>>
         TypeName methodReturns = ParameterizedTypeName.get(
@@ -196,7 +179,7 @@ public class ARouterProcessor extends AbstractProcessor {
 
         //  groupMap.put("personal", ARouter$$Path$$personal.class);
         //	groupMap.put("order", ARouter$$Path$$order.class);
-        for (Map.Entry<String, String> entry : mAllGroupMap.entrySet()) {
+        for (Map.Entry<String, String> entry : allGroupMap.entrySet()) {
             methodBuidler.addStatement("$N.put($S, $T.class)",
                     ProcessorConfig.GROUP_VAR1, // groupMap.put
                     entry.getKey(), // order, personal ,app
@@ -320,7 +303,7 @@ public class ARouterProcessor extends AbstractProcessor {
      */
     private void createPathFileGenerater(TypeElement pathType) throws IOException {
         //判断map仓库是否有需要生成的文件
-        if (ProcessorUtils.isEmpty(mAllPathMap)) return;
+        if (ProcessorUtils.isEmpty(allPathMap)) return;
 
         //生成代码
         //构建Map<String, RouterBean>
@@ -330,7 +313,7 @@ public class ARouterProcessor extends AbstractProcessor {
                 ClassName.get(RouterBean.class));
 
         //遍历所有path仓库
-        for (Map.Entry<String, List<RouterBean>> entry: mAllPathMap.entrySet()){
+        for (Map.Entry<String, List<RouterBean>> entry: allPathMap.entrySet()){
             //生成方法体
             MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(ProcessorConfig.PATH_METHOD_NAME)
                     .addAnnotation(Override.class)
@@ -378,7 +361,7 @@ public class ARouterProcessor extends AbstractProcessor {
                     .writeTo(filer); // 文件生成器开始生成类文件
 
             //存放到path缓存中
-            mAllGroupMap.put(entry.getKey(), finalClassName);
+            allGroupMap.put(entry.getKey(), finalClassName);
         }
     }
 

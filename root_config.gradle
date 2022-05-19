@@ -29,7 +29,7 @@ ext{
 
 
     app_appid = [
-            "module_first": "com.lsj.module_one",
+            "module_first": "com.lsj.module_first",
             "module_second": "com.lsj.module_second"
     ]
 }
