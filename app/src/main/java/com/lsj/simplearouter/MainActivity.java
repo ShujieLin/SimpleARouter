@@ -1,19 +1,14 @@
 package com.lsj.simplearouter;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.lsj.arouter_annotations.ARouter;
-import com.lsj.arouter_annotations.bean.RouterBean;
-import com.lsj.arouter_api.ARouterPath;
-import com.lsj.common.KLog;
-import com.lsj.module_one.ModuleFirstActivity;
-import com.lsj.module_second.ModuleSecondActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Map;
+import com.lsj.arouter_annotations.ARouter;
+import com.lsj.arouter_api.RouterManager;
+import com.lsj.module_one.ModuleFirstActivity;
 
 @ARouter(path = "/app/MainActivity")
 public class MainActivity extends AppCompatActivity {
@@ -31,8 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void gotoModuleSecond(View view) {
-//        Intent intent = new Intent(this, ModuleSecondActivity.class);
-//        startActivity(intent);
+        /*
+        一： 原生跳转
+        Intent intent = new Intent(this, ModuleSecondActivity.class);
+        startActivity(intent);
+        **/
+
+        /*
+        二：通过生成的代码跳转
         ARouter$Group$module_second moduleSecond = new ARouter$Group$module_second();
         //获取组
         Map<String, Class<? extends ARouterPath>> secondGroupMap = moduleSecond.getGroupMap();
@@ -53,9 +54,16 @@ public class MainActivity extends AppCompatActivity {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
+        **/
 
-
+        /*
+        三：封装写法
+         */
+        RouterManager.getInstance()
+                .build("/module_second/ModuleSecondActivity")
+                .withString("name", "helloworld！")
+                .withInt("testInt",520)
+                .withBoolean("testBoolean",true)
+                .navigation(this);
     }
-
-
 }
