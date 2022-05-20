@@ -8,7 +8,9 @@ package com.lsj.compiler.utils;
 public interface ProcessorConfig {
 
     // @ARouter注解 的 包名 + 类名
-    String AROUTER_PACKAGE =  "com.lsj.arouter_annotations.ARouter";//com.lsj.arouter_annotations.ARouter
+    String AROUTER_PACKAGE =  "com.lsj.arouter_annotations.ARouter";
+    //参数注解
+    String PARAMETER_PACKAGE = "com.lsj.arouter_annotations.Parameter";
 
     // 接收参数的TAG标记
     String OPTIONS = "moduleName"; //接收每个module名称 moduleName
@@ -46,4 +48,21 @@ public interface ProcessorConfig {
 
     // 路由组，GROUP 最终要生成的 文件名
     String GROUP_FILE_NAME = "ARouter$Group$";
+
+    /**
+     *  ARouter api 的 ParameterGet {@link com.lsj.arouter_annotations.Parameter}
+     */
+    String AROUTER_AIP_PARAMETER_GET = AROUTER_API_PACKAGE + ".ParameterGet";
+
+    // ARouter api 的 ParameterGet 方法参数的名字
+    String PARAMETER_NAME = "targetParameter";
+
+    // String全类名
+    public static final String STRING = "java.lang.String";
+
+    // ARouter aip 的 ParmeterGet 的 生成文件名称 $Parameter
+    String PARAMETER_FILE_NAME = "$Parameter";
+
+    // ARouter api 的 ParmeterGet 方法的名字
+    String PARAMETER_METHOD_NAME = "getParameter";
 }

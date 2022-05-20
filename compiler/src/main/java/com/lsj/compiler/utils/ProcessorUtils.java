@@ -12,6 +12,11 @@ public class ProcessorUtils {
         return cs == null || cs.length() == 0;
     }
 
+    /**
+     * 判空
+     * @param coll
+     * @return
+     */
     public static boolean isEmpty(Collection<?> coll) {
         return coll == null || coll.isEmpty();
     }
