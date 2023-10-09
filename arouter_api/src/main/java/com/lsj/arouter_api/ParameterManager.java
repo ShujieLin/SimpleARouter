@@ -8,7 +8,7 @@ import android.util.LruCache;
  * @author: linshujie
  */
 public class ParameterManager {
-    private static ParameterManager instance;
+    private static volatile ParameterManager instance;
     // private boolean isCallback;
 
     public static ParameterManager getInstance() {

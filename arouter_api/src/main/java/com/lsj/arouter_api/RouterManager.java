@@ -20,13 +20,13 @@ import com.lsj.arouter_annotations.bean.RouterBean;
 public class RouterManager {
     private static final String TAG = "RouterManager";
     // 单例模式
-    private static RouterManager instance;
+    private static volatile RouterManager instance;//双重锁机制，赋予可见性，避免极端情况下的CPU重排列。
     private String path;
     private String group;
 
     private final static String FILE_GROUP_NAME = "ARouter$Group$";
 
-    // 提供性能  LRU缓存
+    //缓存
     private LruCache<String, ARouterGroup> groupLruCache;
     private LruCache<String, ARouterPath> pathLruCache;
 
@@ -110,7 +110,7 @@ public class RouterManager {
             }
 
             //跳转
-            if (loadPath != null) { // 健壮
+            if (loadPath != null) {
                 if (loadPath.getPathMap().isEmpty()) {
                     throw new RuntimeException("Map<String, RouterBean> is null");
                 }

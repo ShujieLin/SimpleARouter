@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         **/
 
         /*
-        三：封装写法
+        三：封装为库
          */
         RouterManager.getInstance()
                 .build("/module_second/ModuleSecondActivity")

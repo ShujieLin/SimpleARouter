@@ -8,16 +8,16 @@ import javax.lang.model.element.Element;
  */
 public class RouterBean {
 
-    // 为了以后的发展
+    // TODO: 10/9/2023 后续拓展和支持其他组件
     public enum TypeEnum {
         ACTIVITY
     }
 
     private TypeEnum typeEnum; // 枚举类型：Activity
-    private Element element; // 类节点 JavaPoet学习的时候，可以拿到很多的信息
+    private Element element;
     private Class<?> myClass; // 被注解的 Class对象 例如： MainActivity.class  Main2Activity.class
     private String path; // 路由地址  例如：/app/MainActivity
-    private String group; // 路由组  例如：app  order  personal
+    private String group;
 
     // TODO 以下是一组 Get 方法
     public TypeEnum getTypeEnum() {
